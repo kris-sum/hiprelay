@@ -42,7 +42,7 @@ var irc_config = {
 	autoRejoin: true,
 	secure: false,
 	floodProtection: true,
-	floodProtectionDelay: 1000
+	floodProtectionDelay: 100
 }
 
 var ircbot = new irc.Client(irc_config.server, irc_config.nickname, irc_config, {
