@@ -1,0 +1,4 @@
+# actual config file
+config.js
+# vim swap files
+*.swp
