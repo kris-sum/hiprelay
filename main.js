@@ -27,7 +27,7 @@ var httprequest = require('request');
 var express = require('express');
 var weblistener = express();
 var webparser = require('body-parser');
-console.log(config.apikey);
+
 var irc_config = {
 	channels: [ config.irc_channel ],
 	server: config.irc_server,
