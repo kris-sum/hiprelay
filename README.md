@@ -1,4 +1,4 @@
-# hiprep
+# hiprelay
 
 HipChat <--> IRC replication/integration/whatever bot
 
