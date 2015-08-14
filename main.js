@@ -46,13 +46,24 @@ var irc_config = {
 }
 
 var ircbot = new irc.Client(irc_config.server, irc_config.nickname, irc_config, {
-		channels: irc_config.channels
+	channels: irc_config.channels
 });
 
 ircbot.addListener('message', function(nick, channel, message) {
 	irc_to_hipchat(nick, message)
 });
 
+ircbot.addListener('error', function(message){
+	console.log("ircbot error: "+ JSON.stringify(message));
+});
+
+if(config.irc_password) {
+	// some networks don't allow us to join until we identified
+	// e.g. AzzurraNet
+	setTimeout(function() { ircbot.send('NickServ', "IDENTIFY "+config.irc_password);
+		ircbot.join(config.irc_channel);
+	}, 500);
+}
 
 hc.delete_all_webhooks(config.hipchat_room, function(err) {
 	if(err != null) {

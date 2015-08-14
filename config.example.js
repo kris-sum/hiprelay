@@ -12,6 +12,7 @@ config.irc_channel = '#irc-channel';
 config.irc_nickname = 'hiprep';
 config.irc_username = 'hiprep';
 config.irc_realname = 'hiprep';
+config.irc_password = 'nick-password';
 config.hipchat_room = 'hipchat-room';
 config.hipchat_color = 'gray';
 
