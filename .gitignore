@@ -1,4 +1,6 @@
 # actual config file
 config.js
+# node modules
+node_modules/
 # vim swap files
 *.swp
