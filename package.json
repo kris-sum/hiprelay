@@ -1,0 +1,13 @@
+{
+  "name": "hipreplay",
+  "description": "HipChat <--> IRC integration bot",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Wide-Net/hiprelay",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "hipchatter": "^0.2.0",
+    "irc": "^0.3.12",
+    "request": "^2.60.0"
+  }
+}
