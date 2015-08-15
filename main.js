@@ -21,12 +21,7 @@
 
 var config = require('./config.js');
 var irc = require('irc');
-var hc = require('hipchatter');
-var hc = new hc(config.apikey, config.apiurl);
 var httprequest = require('request');
-var express = require('express');
-var weblistener = express();
-var webparser = require('body-parser');
 
 var irc_config = {
 	channels: [ config.irc_channel ],
@@ -50,8 +45,30 @@ var ircbot = new irc.Client(irc_config.server, irc_config.nickname, irc_config, 
 });
 
 ircbot.addListener('message', function(nick, channel, message) {
-	irc_to_hipchat(nick, message)
+	text = "<"+nick+"> "+message;
+	irc_to_hipchat(text, 'gray')
 });
+
+ircbot.addListener('join', function(channel, who) {
+	text = "User "+who+" joined the room.";
+	irc_to_hipchat(text, "green");
+});
+
+ircbot.addListener('part', function(channel, who) {
+	text = "User "+who+" left the room.";
+	irc_to_hipchat(text, "yellow");
+});
+
+ircbot.addListener('part', function(channel, who) {
+	    text = "User "+who+" has quit.";
+		irc_to_hipchat(text, "red");
+});
+
+
+//bot.addListener('kick', function(channel, who, by, reason) {
+//	    console.log('%s was kicked from %s by %s: %s', who, channel, by, reason);
+//});
+
 
 ircbot.addListener('error', function(message){
 	console.log("ircbot error: "+ JSON.stringify(message));
@@ -65,33 +82,10 @@ if(config.irc_password) {
 	}, 500);
 }
 
-hc.delete_all_webhooks(config.hipchat_room, function(err) {
-	if(err != null) {
-		console.log("Webhook cleanup error: "+err+'\n');
-	}
-});
-
-hc.create_webhook(config.hipchat_room, { 
-	url: config.this_app_url+'/message',
-	event: 'room_message' }, function(err, webhook) {
-	if(err != null) {
-		console.log("Webhook injection error: "+err+'\n');
-	}
-});
-
-
-weblistener.use(webparser.json());
-
-weblistener.post('/message', function(req, res) {
-	var nick = req.body.item.message.from.mention_name;
-	var message = req.body.item.message.message;
-	hipchat_to_irc(nick, message);
-});
-
-function irc_to_hipchat(nick, message) {
+function irc_to_hipchat(text, color) {
 	httprequest.post(
 		config.int_url+"/notification?auth_token="+config.int_token,
-		{ form : {"color" : config.hipchat_color, "message" : "<"+nick+">"+" "+message,
+		{ form : {"color" : color, "message" : text,
 					"notify" : "false", "message_format" : "text" } },
 		function(error, response, body) {
 			if(!error && response.statusCode == 200) {
@@ -101,11 +95,3 @@ function irc_to_hipchat(nick, message) {
 	);
 }
 
-function hipchat_to_irc(nick, message) {
-	ircbot.say(config.irc_channel, "<"+nick+"> "+message);
-}
-
-var webserver = weblistener.listen(config.this_app_port, function() {
-	var host = webserver.address().address;
-	var port = webserver.address().port;
-});
