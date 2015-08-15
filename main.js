@@ -1,21 +1,5 @@
 /*
- * Let's say we want to let HipChat and IRC users communicate together.
- * Let's say we have an HipChat room named "IRC" and a "#hipchat-irc"
- * channel on Freenode. This application creates a bidirectional pipe
- * between the two, so that what users write in HipChat shows up
- * in IRC and vice versa, of course.
- *
- * The logic is quite simple. We have two async modules running: ircbot
- * and weblistener. ircbot is connected to IRC and listens for people
- * writing in channel, and on a message event it performs a relay to
- * HipChat by making a POST request against an integration, plus token.
- * The weblistener module, on the other hand, listens to a webhook
- * generated query coming from the HipChat room and triggered whenever
- * a HipChat user writes a message. The weblistener module decodes the
- * JSON message and relays it into IRC.
- * 
- * Now let this all sink in for a moment.
- * Beautiful, isn't it?
+ * TODO
 */
 
 
@@ -49,18 +33,18 @@ ircbot.addListener('message', function(nick, channel, message) {
 	irc_to_hipchat(text, 'gray')
 });
 
-ircbot.addListener('join', function(channel, who) {
-	text = "User "+who+" joined the room.";
+ircbot.addListener('join', function(channel, nick) {
+	text = "User "+who+" has joined";
 	irc_to_hipchat(text, "green");
 });
 
-ircbot.addListener('part', function(channel, who) {
-	text = "User "+who+" left the room.";
+ircbot.addListener('part', function(channel, nick) {
+	text = "User "+nick+" has left";
 	irc_to_hipchat(text, "yellow");
 });
 
-ircbot.addListener('part', function(channel, who) {
-	    text = "User "+who+" has quit.";
+ircbot.addListener('quit', function(nick) {
+	    text = "User "+nick+" has quit";
 		irc_to_hipchat(text, "red");
 });
 
