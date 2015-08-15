@@ -1,6 +1,6 @@
 # hiprelay-stealth
 
-IRC -> HipChat replication bot
+IRC -> HipChat relay bot
 
 ### Screenshots
 coming soon
