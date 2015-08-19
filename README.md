@@ -3,4 +3,4 @@
 IRC -> HipChat relay bot
 
 ### Screenshots
-coming soon
+![irc-hipchat-mirror](https://i.imgur.com/TbxVmT8.png)
