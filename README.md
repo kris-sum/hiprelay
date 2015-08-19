@@ -1,6 +1,6 @@
-# hiprelay-stealth
+# hiprelay
 
-IRC -> HipChat relay bot
+HipChat <--> IRC integration bot
 
 ### Screenshots
 ![irc-hipchat-mirror](https://i.imgur.com/TbxVmT8.png)
