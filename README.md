@@ -17,7 +17,7 @@ Now let this all sink in for a moment. Beautiful, isn't it?
 4. Enjoy!
 
 ### Notes
-At the moment, the application clears previous webhooks before inserting the one it needs.
+At the moment, the application clears previous webhooks before inserting the one it needs. This has to be done since up to now HipChat has no way to detect if the webhook we're adding is identical to an already existing one.
 
 Also, to keep things tidy, we're only listening to IRC message events, thus skipping joins/parts/quits.
 
